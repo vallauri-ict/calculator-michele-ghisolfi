@@ -37,7 +37,7 @@ namespace CalculatorFormProject
         // private char[,] buttons = new char[6, 4];
         private ButtonStruct[,] buttons =
         {
-            { new ButtonStruct('%', false), new ButtonStruct(' ', false), new ButtonStruct('C',false), new ButtonStruct(' ',false) },
+            { new ButtonStruct('%', false), new ButtonStruct(' ', false), new ButtonStruct('C',false), new ButtonStruct('<',false) },
             { new ButtonStruct(' ', false, false), new ButtonStruct(' ', false), new ButtonStruct(' ',false), new ButtonStruct('/',false) },
             { new ButtonStruct('7', true, true), new ButtonStruct('8', true, true), new ButtonStruct('9',true, true), new ButtonStruct('x',false) },
             { new ButtonStruct('4', true, true), new ButtonStruct('5', true, true), new ButtonStruct('6',true, true), new ButtonStruct('-',false) },
@@ -68,7 +68,18 @@ namespace CalculatorFormProject
             resultBox.ReadOnly = true;
             resultBox.Text = "0";
             resultBox.TabStop = false;
+            resultBox.TextChanged += ResultBox_TextChanged;
             this.Controls.Add(resultBox);
+        }
+
+        private void ResultBox_TextChanged(object sender, EventArgs e)
+        {
+            int newSize = 22 + (15 - resultBox.Text.Length);
+            if (newSize > 8 && newSize < 23)
+            {
+                int delta = 15 - resultBox.Text.Length;
+                resultBox.Font = new Font("Segoe UI", newSize);
+            }
         }
 
         private void MakeButtons(ButtonStruct[,] buttons)
@@ -136,6 +147,24 @@ namespace CalculatorFormProject
                     else
                     {
                         resultBox.Text = resultBox.Text.Replace("-", "");
+                    }
+                }
+                else
+                {
+                    switch (bs.Content)
+                    {
+                        case 'C':
+                            resultBox.Text = "0";
+                            break;
+                        case '<':
+                            resultBox.Text = resultBox.Text.Remove(resultBox.Text.Length - 1);
+                            if (resultBox.Text.Length == 0 || resultBox.Text == "-0" || resultBox.Text == "-")
+                            {
+                                resultBox.Text = "0";
+                            }
+                            break;
+                        default:
+                            break;
                     }
                 }
             }

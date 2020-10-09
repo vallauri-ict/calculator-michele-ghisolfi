@@ -199,6 +199,11 @@ namespace CalculatorFormProject
             lastButtonClicked = bs;
         }
 
+        /// <summary>
+        /// Format the number using thousend separator and 16 decimal digits.
+        /// </summary>
+        /// <param name="number">The number to format.</param>
+        /// <returns>A string with thousend separator and a maximum of 16 digit after the decimal point.</returns>
         private string getFormattedNumber(double number)
         {
             // return String.Format("{0:0,0.0000000000000000}", number);
@@ -253,7 +258,7 @@ namespace CalculatorFormProject
                         lastOperator = bs.Content;
                         operand2 = 0;
                     }
-                    
+
                     resultBox.Text = getFormattedNumber(result);
                 }
             }

@@ -201,7 +201,7 @@ namespace CalculatorFormProject
 
         private string getFormattedNumber(double number)
         {
-            return String.Format("{0:0,0.00000}", number);
+            return String.Format("{0:0,0.0000000000000000}", number);
             // return number.ToString("N", CultureInfo.InvariantCulture);	
         }
 

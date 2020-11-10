@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CalculatorFormProject
@@ -25,7 +19,7 @@ namespace CalculatorFormProject
             public bool IsEqualSign;
             public bool IsSpecialOperator;
             public ButtonStruct(char content, bool isBold,
-                bool isNumber = false, bool isDecimalSeparator = false, bool isPlusMinusSign = false, 
+                bool isNumber = false, bool isDecimalSeparator = false, bool isPlusMinusSign = false,
                 bool isOperator = false, bool isEqualSign = false, bool isSpecialOperator = false)
             {
                 this.Content = content;
@@ -46,12 +40,12 @@ namespace CalculatorFormProject
         // private char[,] buttons = new char[6, 4];
         private ButtonStruct[,] buttons =
         {
-             { new ButtonStruct(' ', false), new ButtonStruct(' ', false), new ButtonStruct('C', false), new ButtonStruct('<', false) },
-                { new ButtonStruct('¼', false, false, false, false, true, false, true), new ButtonStruct(' ', false, false, false, false, true), new ButtonStruct(' ', false, false, false, false, true), new ButtonStruct('/', false, false, false, false, true) },
-                { new ButtonStruct('7', true, true), new ButtonStruct('8', true, true), new ButtonStruct('9', true, true), new ButtonStruct('x', false, false, false, false, true) },
-                { new ButtonStruct('4', true, true), new ButtonStruct('5', true, true), new ButtonStruct('6', true, true), new ButtonStruct('-', false, false, false, false, true) },
-                { new ButtonStruct('1', true, true), new ButtonStruct('2', true, true), new ButtonStruct('3', true, true), new ButtonStruct('+', false, false, false, false, true) },
-                { new ButtonStruct('±', false, false, false, true), new ButtonStruct('0', true, true), new ButtonStruct(',', false, false, true), new ButtonStruct('=', false, false, false, false, true, true) }
+            { new ButtonStruct(' ', false), new ButtonStruct(' ', false), new ButtonStruct('C', false), new ButtonStruct('<', false) },
+            { new ButtonStruct('¼', false, false, false, false, true, false, true), new ButtonStruct('^', false, false, false, false, true, false, true), new ButtonStruct(' ', false, false, false, false, true), new ButtonStruct('/', false, false, false, false, true) },
+            { new ButtonStruct('7', true, true), new ButtonStruct('8', true, true), new ButtonStruct('9', true, true), new ButtonStruct('x', false, false, false, false, true) },
+            { new ButtonStruct('4', true, true), new ButtonStruct('5', true, true), new ButtonStruct('6', true, true), new ButtonStruct('-', false, false, false, false, true) },
+            { new ButtonStruct('1', true, true), new ButtonStruct('2', true, true), new ButtonStruct('3', true, true), new ButtonStruct('+', false, false, false, false, true) },
+            { new ButtonStruct('±', false, false, false, true), new ButtonStruct('0', true, true), new ButtonStruct(',', false, false, true), new ButtonStruct('=', false, false, false, false, true, true) }
         };
 
         private RichTextBox resultBox;
@@ -240,11 +234,27 @@ namespace CalculatorFormProject
                         {
                             operand2 = specialOperatorResult;
                         }
+                        lastButtonClicked = bs;
+                        break;
+                    case '^':
+                        if (lastOperator == ASCIIZERO)
+                        {
+                            result = Math.Pow(double.Parse(resultBox.Text), 2);
+                            resultBox.Text = getFormattedNumber(result);
+                            lastButtonClicked = bs;
+                        }
+                        else
+                        {
+                            operand2 = Math.Pow(double.Parse(resultBox.Text), 2);
+                            lastButtonClicked.Content = lastOperator;
+                            lastButtonClicked.IsOperator = false;
+                            lastButtonClicked.IsEqualSign = false;
+                            lastButtonClicked.IsSpecialOperator = false;
+                        }
                         break;
                     default:
                         break;
                 }
-                lastButtonClicked = bs;
             }
             if (lastOperator == ASCIIZERO)
             {
@@ -302,3 +312,9 @@ namespace CalculatorFormProject
         }
     }
 }
+
+/* DIFFERENZA STRUCT CLASSE
+ * STRUCT: la usiamo per degli scenari puù semplici ripetto a una classe. 
+ *         Solitamente la uso per raggruppare un gruppo di variabili 
+ * CLASSE: 
+ */
